@@ -5,26 +5,12 @@ let command = args.shift()
 let taskDescription = args.join(' ')
 let file = path.join(process.cwd(), '/tasks.json')
 
-switch (command) {
-    case 'list':
-        listTasks(file)
-        break
-
-    case 'add':
-        addTask(file, taskDescription)
-        break
-
-    default:
-        console.log('Usage: ' + process.argv[0]
-            + ' list|add [taskDescription]')
-}
-
-function loadOrInitializeTaskArray(file, cb) {
+const loadOrInitializeTaskArray = function (file, cb) {
     fs.exists(file, function (exists) {
         if (exists) {
             fs.readFile(file, 'utf8', function (err, data) {
                 if (err) throw err
-                let data = data.toString()
+                data = data.toString()
                 let tasks = JSON.parse(data || '[]')
                 cb(tasks)
             })
@@ -34,7 +20,7 @@ function loadOrInitializeTaskArray(file, cb) {
     })
 }
 
-function listTasks(file) {
+const listTasks = function (file) {
     loadOrInitializeTaskArray(file, function (tasks) {
         for (let i in tasks) {
             console.log(tasks[i])
@@ -42,16 +28,43 @@ function listTasks(file) {
     })
 }
 
-function storeTasks(file, tasks) {
+const storeTasks = function (file, tasks) {
     fs.writeFile(file, JSON.stringify(tasks), 'utf8', function (err) {
         if (err) throw err
         console.log('Saved.')
     })
 }
 
-function addTask(file, taskDescription) {
+const addTask = function (file, taskDescription) {
     loadOrInitializeTaskArray(file, function (tasks) {
         tasks.push(taskDescription)
         storeTasks(file, tasks)
     })
 }
+
+const act = function () {
+    let defaultVal = () => {
+        return console.log(`Usage: node list|add [taskDescription]`)
+    }
+
+    let handler = {
+        get: (target, name) => {
+            return target.hasOwnProperty(name) ? target[name]: defaultVal
+        }
+    }
+
+    let actions = {
+        list: listTasks,
+        add: addTask,
+    }
+
+    let p = new Proxy(actions, handler)
+
+    p[command](file, taskDescription)
+}
+
+const __main = function () {
+    act()
+}
+
+__main()
