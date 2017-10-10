@@ -56,4 +56,3 @@ const __main = function () {
 }
 
 __main()
-``
