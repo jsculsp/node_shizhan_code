@@ -1,5 +1,6 @@
 const fs = require('fs')
 const filesDir = './text'
+const log = console.log.bind(console)
 
 let completedTasks = 0
 let tasks = []
@@ -7,9 +8,9 @@ let wordCounts = {}
 
 const checkIfComplete = function () {
     completedTasks++
-    if (completedTasks == tasks.length) {
+    if (completedTasks === tasks.length) {
         for (let index in wordCounts) {
-            console.log(index + ': ' + wordCounts[index])
+            log(index + ': ' + wordCounts[index])
         }
     }
 }
@@ -20,8 +21,7 @@ const countWordsInText = function (text) {
         .toLowerCase()
         .split(/\W+/)
         .sort()
-    for (let index in words) {
-        let word = words[index]
+    for (let word of words) {
         if (word) {
             wordCounts[word] = (wordCounts[word]) ? wordCounts[word] + 1 : 1
         }
