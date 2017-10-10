@@ -6,9 +6,9 @@ let taskDescription = args.join(' ')
 let file = path.join(process.cwd(), '/tasks.json')
 
 const loadOrInitializeTaskArray = function (file, cb) {
-    fs.exists(file, function (exists) {
+    fs.exists(file, (exists) => {
         if (exists) {
-            fs.readFile(file, 'utf8', function (err, data) {
+            fs.readFile(file, 'utf8', (err, data) => {
                 if (err) throw err
                 data = data.toString()
                 let tasks = JSON.parse(data || '[]')
@@ -21,9 +21,9 @@ const loadOrInitializeTaskArray = function (file, cb) {
 }
 
 const listTasks = function (file) {
-    loadOrInitializeTaskArray(file, function (tasks) {
-        for (let i in tasks) {
-            console.log(tasks[i])
+    loadOrInitializeTaskArray(file, (tasks) => {
+        for (let t of tasks) {
+            console.log(t)
         }
     })
 }
@@ -36,7 +36,7 @@ const storeTasks = function (file, tasks) {
 }
 
 const addTask = function (file, taskDescription) {
-    loadOrInitializeTaskArray(file, function (tasks) {
+    loadOrInitializeTaskArray(file, (tasks) => {
         tasks.push(taskDescription)
         storeTasks(file, tasks)
     })
