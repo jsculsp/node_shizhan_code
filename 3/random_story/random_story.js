@@ -1,6 +1,7 @@
 const fs = require('fs')
 const request = require('request')
 const htmlparser = require('htmlparser')
+const log = console.log.bind(console)
 const configFilename = './rss_feeds.txt'
 
 const checkForRSSFile = function () {
@@ -36,7 +37,7 @@ const downloadRSSFeed = function (feedUrl) {
     })
 }
 
-const parseRSSFeed = function (rss) {
+const parseRSSFeed = function (rss){
     let handler = new htmlparser.RssHandler()
     let parser = new htmlparser.Parser(handler)
     parser.parseComplete(rss)
@@ -46,8 +47,8 @@ const parseRSSFeed = function (rss) {
     }
 
     let item = handler.dom.items.shift()
-    console.log(item.title)
-    console.log(item.link)
+    log(item.title)
+    log(item.link)
 }
 
 let tasks = [
