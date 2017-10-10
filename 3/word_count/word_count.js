@@ -38,13 +38,21 @@ const genTask = function (file) {
     }
 }
 
-fs.readdir(filesDir, (err, files) => {
-    if (err) throw err
-    for (let f of files) {
-        let task = genTask(filesDir + '/' + f)
-        tasks.push(task)
-    }
-    for (let t of tasks) {
-        t()
-    }
-})
+const readDir = function () {
+    fs.readdir(filesDir, (err, files) => {
+        if (err) throw err
+        for (let f of files) {
+            let task = genTask(filesDir + '/' + f)
+            tasks.push(task)
+        }
+        for (let t of tasks) {
+            t()
+        }
+    })
+}
+
+const __main = function () {
+    readDir()
+}
+
+__main()
