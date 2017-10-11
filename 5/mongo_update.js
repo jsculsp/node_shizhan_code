@@ -7,7 +7,7 @@ client.open(function (err) {
     client.collection('test_insert', function (err, collection) {
         if (err) throw err
 
-        let _id = new client.bson_serializer.ObjectID('4e650d344ac74b5a01000001')
+        let _id = new mongodb.ObjectID('59ddde74993daa2c846104d6')
         collection.update(
             {_id: _id},
             {$set: {"title": "I ate too much cake"}},

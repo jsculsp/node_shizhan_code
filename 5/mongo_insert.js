@@ -15,7 +15,7 @@ client.open(function (err) {
             {safe: true},
             function (err, documents) {
                 if (err) throw err
-                console.log('Document ID is: ' + documents[0]._id)
+                console.log(documents.ops[0]._id)
             }
         )
     })
