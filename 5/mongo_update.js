@@ -16,5 +16,10 @@ client.open(function (err) {
                 if (err) throw err
             }
         )
+
+        collection.find({"title": "I ate too much cake"}).toArray((err, results) => {
+            if (err) throw err
+            console.log(results)
+        })
     })
 })
