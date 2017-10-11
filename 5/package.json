@@ -2,6 +2,8 @@
   "name": "3",
   "version": "0.0.1",
   "dependencies": {
+    "mongodb": "^2.2.31",
+    "mongoose": "^4.12.1",
     "redis": "^2.8.0"
   }
 }

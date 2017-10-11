@@ -1,29 +1,29 @@
-var parse = require('url').parse;
+const parse = require('url').parse
 
 module.exports = function route(obj) {
-  return function(req, res, next){
-    if (!obj[req.method]) {
-      next();
-      return;
-    }
-    var routes = obj[req.method];
-    var url = parse(req.url);
-    var paths = Object.keys(routes);
+    return function (req, res, next) {
+        if (!obj[req.method]) {
+            next()
+            return
+        }
+        let routes = obj[req.method]
+        let url = parse(req.url)
+        let paths = Object.keys(routes)
 
-    for (var i = 0; i < paths.length; i++) {
-      var path = paths[i];
-      var fn = routes[path];
-      path = path
-        .replace(/\//g, '\\/')
-        .replace(/:(\w+)/g, '([^\\/]+)');
-      var re = new RegExp('^' + path + '$');
-      var captures = url.pathname.match(re);
-      if (captures) {
-        var args = [req, res].concat(captures.slice(1));
-        fn.apply(null, args);
-        return;
-      }
+        for (let i = 0; i < paths.length; i++) {
+            let path = paths[i]
+            let fn = routes[path]
+            path = path
+                .replace(/\//g, '\\/')
+                .replace(/:(\w+)/g, '([^\\/]+)')
+            let re = new RegExp('^' + path + '$')
+            let captures = url.pathname.match(re)
+            if (captures) {
+                let args = [req, res].concat(captures.slice(1))
+                fn.apply(null, args)
+                return
+            }
+        }
+        next()
     }
-    next();
-  }
-};
+}
