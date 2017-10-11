@@ -6,7 +6,7 @@ let db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'linmu',
     password: '123456',
-    database: 'timetrack'
+    database: 'timetrack',
 })
 
 let server = http.createServer(function (req, res) {
@@ -37,13 +37,14 @@ let server = http.createServer(function (req, res) {
 })
 
 db.query(
-    "CREATE TABLE IF NOT EXISTS work ("
-    + "id INT(10) NOT NULL AUTO_INCREMENT, "
-    + "hours DECIMAL(5,2) DEFAULT 0, "
-    + "date DATE, "
-    + "archived INT(1) DEFAULT 0, "
-    + "description LONGTEXT,"
-    + "PRIMARY KEY(id))",
+    `CREATE TABLE IF NOT EXISTS WORK (
+        id INT (10) NOT NULL AUTO_INCREMENT,
+        hours DECIMAL (5, 2) DEFAULT 0,
+        DATE DATE,
+        archived INT (1) DEFAULT 0,
+        description LONGTEXT,
+        PRIMARY KEY (id)
+    )`,
     function (err) {
         if (err) throw err
         console.log('Server started...')
