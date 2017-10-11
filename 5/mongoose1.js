@@ -40,3 +40,8 @@ Task.update(
         console.log(`${rows_updated} updated!`)
     }
 )
+
+// 运行其它函数前把这个函数注释掉
+Task.findById('59dde6c0d2b669566cfe3c9c', (err, task) => {
+    task.remove()
+})
