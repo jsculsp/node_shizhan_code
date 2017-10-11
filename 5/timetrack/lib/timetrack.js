@@ -19,18 +19,22 @@ exports.parseReceivedData = function (req, cb) {
 }
 
 exports.actionForm = function (id, path, label) {
-    let html = '<form method="POST" action="' + path + '">' +
-        '<input type="hidden" name="id" value="' + id + '">' +
-        '<input type="submit" value="' + label + '" />' +
-        '</form>'
+    let html = `
+        <form method="POST" action="${path}">
+            <input type="hidden" name="id" value="${id}">
+            <input type="submit" value="${label}" />
+        </form>
+    `
     return html
 }
 
 exports.add = function (db, req, res) {
     exports.parseReceivedData(req, function (work) {
         db.query(
-            "INSERT INTO work (hours, date, description) " +
-            " VALUES (?, ?, ?)",
+            `
+                INSERT INTO work (hours, date, description)
+                VALUES (?, ?, ?)
+            `,
             [work.hours, work.date, work.description],
             function (err) {
                 if (err) throw err
@@ -43,7 +47,7 @@ exports.add = function (db, req, res) {
 exports.delete = function (db, req, res) {
     exports.parseReceivedData(req, function (work) {
         db.query(
-            "DELETE FROM work WHERE id=?",
+            `DELETE FROM work WHERE id=?`,
             [work.id],
             function (err) {
                 if (err) throw err
@@ -67,18 +71,26 @@ exports.archive = function (db, req, res) {
 }
 
 exports.show = function (db, res, showArchived) {
-    let query = "SELECT * FROM work " +
-        "WHERE archived=? " +
-        "ORDER BY date DESC"
+    let query = `
+        SELECT 
+          * 
+        FROM
+          WORK 
+        WHERE archived = ? 
+        ORDER BY DATE DESC 
+    `
     let archiveValue = (showArchived) ? 1 : 0
     db.query(
         query,
         [archiveValue],
         function (err, rows) {
             if (err) throw err
-            html = (showArchived)
-                ? ''
-                : '<a href="/archived">Archived Work</a><br/>'
+            let html
+            if (showArchived) {
+                html = ''
+            } else {
+                html = `<a href="/archived">Archived Work</a><br/>`
+            }
             html += exports.workHitlistHtml(rows)
             html += exports.workFormHtml()
             exports.sendHtml(res, html)
@@ -92,15 +104,15 @@ exports.showArchived = function (db, res) {
 
 exports.workHitlistHtml = function (rows) {
     let html = '<table>'
-    for (let i in rows) {
+    for (let row of rows) {
         html += '<tr>'
-        html += '<td>' + rows[i].date + '</td>'
-        html += '<td>' + rows[i].hours + '</td>'
-        html += '<td>' + rows[i].description + '</td>'
-        if (!rows[i].archived) {
-            html += '<td>' + exports.workArchiveForm(rows[i].id) + '</td>'
+        html += '<td>' + row.date + '</td>'
+        html += '<td>' + row.hours + '</td>'
+        html += '<td>' + row.description + '</td>'
+        if (!row.archived) {
+            html += '<td>' + exports.workArchiveForm(row.id) + '</td>'
         }
-        html += '<td>' + exports.workDeleteForm(rows[i].id) + '</td>'
+        html += '<td>' + exports.workDeleteForm(row.id) + '</td>'
         html += '</tr>'
     }
     html += '</table>'
