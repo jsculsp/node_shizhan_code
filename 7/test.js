@@ -2,6 +2,7 @@ const connect = require('connect')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const favicon = require('serve-favicon')
 
 // 使用这段代码前注释掉其它代码
 // const app = connect()
@@ -15,6 +16,7 @@ const morgan = require('morgan')
 
 // 使用这段代码前注释掉其它代码
 const app = connect()
+app.use(favicon(__dirname + '/public/favicon.ico'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(morgan('combined'))
