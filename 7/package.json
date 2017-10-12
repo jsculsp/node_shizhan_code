@@ -2,6 +2,8 @@
   "name": "3",
   "version": "0.0.1",
   "dependencies": {
-    "connect": "^3.6.5"
+    "body-parser": "^1.18.2",
+    "connect": "^3.6.5",
+    "cookie-parser": "^1.4.3"
   }
 }
