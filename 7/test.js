@@ -15,6 +15,7 @@ const bodyParser = require('body-parser')
 // 使用这段代码前注释掉其它代码
 const app = connect()
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
 app.use((req, res) => {
     // ...注册用户...
     res.end('Registered new user: ' + req.body.username)
