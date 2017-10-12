@@ -16,6 +16,6 @@ const routes = {
     }
 }
 
-const server = connect()
-server.use(router(routes))
-server.listen(3000)
+const app = connect()
+app.use(router(routes))
+app.listen(3000)
