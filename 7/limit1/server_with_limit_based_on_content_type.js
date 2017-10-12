@@ -1,20 +1,19 @@
-var connect = require('connect');
+const connect = require('connect')
+const bodyParser = require('body-parser')
 
-function type(type, fn) {
+
+const type = function (type, fn) {
     return function (req, res, next) {
-        var ct = req.headers['content-type'] || '';
-        if (0 != ct.indexOf(type)) {
-            return next();
+        let ct = req.headers['content-type'] || ''
+        if (ct.indexOf(type) !== 0) {
+            return next()
         }
-        fn(req, res, next);
+        fn(req, res, next)
     }
 }
 
-var app = connect()
-    .use(type('application/x-www-form-urlencoded', connect.limit('64kb')))
-    .use(type('application/json', connect.limit('32kb')))
-    .use(type('image', connect.limit('2mb')))
-    .use(type('video', connect.limit('300mb')))
-    .use(connect.bodyParser());
+let app = connect()
+app.use(bodyParser.json({limit: '32kb'}))
+app.use(bodyParser.urlencoded({limit: '64kb'}))
 
-app.listen(3000);
+app.listen(3000)
