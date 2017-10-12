@@ -1,5 +1,5 @@
-var connect = require('connect');
+const connect = require('connect');
 
-var app = connect()
-    .use(connect.logger())
-    .listen(3000);
+const app = connect()
+app.use(connect.logger())
+app.listen(3000)
