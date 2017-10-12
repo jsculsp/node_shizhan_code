@@ -1,15 +1,15 @@
 function setup(format) {
-  var regexp = /:(\w+)/g;
+    let regexp = /:(\w+)/g
 
-  return function logger(req, res, next) {
-    var str = format.replace(regexp, function(match, property){
-      return req[property];
-    });
+    return function logger(req, res, next) {
+        let str = format.replace(regexp, function (match, property) {
+            return req[property]
+        })
 
-    console.log(str);
+        console.log(str)
 
-    next();
-  }
+        next()
+    }
 }
 
-module.exports = setup;
+module.exports = setup
