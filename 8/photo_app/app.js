@@ -11,6 +11,8 @@ const photos = require('./routes/photos')
 const morgan = require('morgan')
 const favicon = require('serve-favicon')
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
+const errorhandler = require('errorhandler')
 
 const app = express()
 
@@ -21,7 +23,7 @@ app.set('view engine', 'ejs')
 app.use(favicon())
 app.use(morgan('dev'))
 app.use(bodyParser())
-app.use(express.methodOverride())
+app.use(methodOverride())
 app.use(app.router)
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -29,7 +31,7 @@ app.set('photos', __dirname + '/public/photos')
 
 // development only
 if ('development' == app.get('env')) {
-    app.use(express.errorHandler())
+    app.use(errorhandler())
 }
 
 app.get('/users', user.list)

@@ -6,9 +6,12 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "body-parser": "latest",
+    "errorhandler": "^1.5.0",
     "express": "^4.16.2",
+    "method-override": "^2.3.10",
+    "mongoose": "^4.12.1",
     "morgan": "^1.9.0",
-    "serve-favicon": "^2.4.5",
-    "body-parser": "latest"
+    "serve-favicon": "^2.4.5"
   }
 }
