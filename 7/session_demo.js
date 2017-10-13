@@ -3,11 +3,15 @@ const url = require('url')
 const session = require('express-session')
 
 const app = connect()
+const hour = 3600000
 
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+        maxAge: hour * 24,
+    }
 }))
 
 app.use(function (req, res, next) {
