@@ -18,12 +18,12 @@ const submit = (dir) => {
     return (req, res, next) => {
         let img = req.file
         let name = req.body.name || img.name
-        let newPath = path.join(dir, img.name)
+        let newPath = path.join(dir, img.originalname)
         fs.rename(img.path, newPath, (err) => {
             if (err) return next(err)
             Photo.create({
                 name: name,
-                path: img.name,
+                path: newPath,
             }, (err) => {
                 if (err) return next(err)
                 res.redirect('/')
