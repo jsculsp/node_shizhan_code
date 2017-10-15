@@ -9,6 +9,7 @@ const env = process.env.NODE_ENV = 'development'
 const index = require('./routes/index')
 const users = require('./routes/users')
 const photos = require('./routes/photos')
+const upload = require('./routes/upload')
 
 const app = express()
 
@@ -25,6 +26,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')))
 app.use('/', index)
 app.use('/users', users)
 app.use('/photos', photos)
+app.use('/upload', upload)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
