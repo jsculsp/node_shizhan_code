@@ -12,8 +12,7 @@ const users = require('./routes/users')
 const app = express()
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs')
+require('./settings/common')(app)
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(logger('dev'))
