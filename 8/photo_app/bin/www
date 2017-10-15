@@ -61,7 +61,7 @@ const onError = function (error) {
  */
 
 const onListening = function () {
-    let addr = server.address()
+    let addr = this.address()
     let bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port
@@ -87,4 +87,4 @@ let server = http.createServer(app)
 
 server.listen(port)
 server.on('error', onError)
-server.on('listening', onListening)
+server.on('listening', onListening.bind(server))
