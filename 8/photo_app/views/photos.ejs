@@ -11,7 +11,7 @@
             <% photos.forEach((photo) => { %>
                 <div class="photo">
                     <h2><%= photo.name %></h2>
-                    <img src="<%= photo.path %>" alt="pic">
+                    <img src="/public/photos/<%= photo.path.split('\\')[photo.path.split('\\').length - 1] %>" alt="pic">
                 </div>
             <% }) %>
         </div>
