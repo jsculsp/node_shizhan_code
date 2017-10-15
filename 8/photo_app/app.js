@@ -5,16 +5,17 @@ const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 
+// view engine setup
+const app = express()
+module.exports = app
+require('./settings/common')(app)
+console.log('app.get("photos")', app.get('photos'))
+
 const env = process.env.NODE_ENV = 'development'
 const index = require('./routes/index')
 const users = require('./routes/users')
 const photos = require('./routes/photos')
 const upload = require('./routes/upload')
-
-const app = express()
-
-// view engine setup
-require('./settings/common')(app)
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(logger('dev'))
