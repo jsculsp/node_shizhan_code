@@ -9,7 +9,6 @@ const bodyParser = require('body-parser')
 const app = express()
 module.exports = app
 require('./settings/common')(app)
-console.log('app.get("photos")', app.get('photos'))
 
 const env = process.env.NODE_ENV = 'development'
 const index = require('./routes/index')
