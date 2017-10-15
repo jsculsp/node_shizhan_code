@@ -1,7 +1,9 @@
-/*
- * GET home page.
- */
+const express = require('express')
+const router = express.Router()
 
-exports.index = function (req, res) {
+/* GET home page. */
+router.get('/', function (req, res, next) {
     res.render('index', {title: 'Express'})
-}
+})
+
+module.exports = router
