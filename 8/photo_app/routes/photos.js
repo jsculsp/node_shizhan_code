@@ -12,6 +12,8 @@ const list = (req, res, next) => {
     })
 }
 
+
+
 router.get('/', list)
 
 module.exports = router

@@ -25,3 +25,12 @@ a {
 .photo img {
     height: 100px;
 }
+
+.button {
+    color: darkslategray;
+    text-decoration: none;
+    background: lightgray;
+    padding: 3px;
+    margin-left: 5px;
+    border-radius: 3px;
+}
