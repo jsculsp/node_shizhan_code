@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
+const messages = require('../lib/messages')
 
 module.exports = function (app) {
   app.set('views', path.join(__dirname, '..', 'views'))
@@ -24,6 +25,7 @@ module.exports = function (app) {
     }
   }))
 
+  app.use(messages())
   app.use(favicon(path.join(__dirname, '..', 'public', 'favicon.ico')))
   app.use(logger('dev'))
   app.use(bodyParser.json())
