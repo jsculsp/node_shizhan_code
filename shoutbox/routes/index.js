@@ -26,7 +26,7 @@ const submit = (req, res, next) => {
 }
 
 const logout = (req, res, next) => {
-  req.session.destory((err) => {
+  req.session.destroy((err) => {
     if (err) throw err
     res.redirect('/')
   })
