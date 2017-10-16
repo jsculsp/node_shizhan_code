@@ -28,15 +28,16 @@ const entries = (req, res, next) => {
 }
 
 const entrySubmit = (req, res, next) => {
+  console.log('req.body: ', req.body)
   let entry = new Entry({
-    username: res.locals.user.name,
+    username: res.locals.user,
     title: req.body.title,
     body: req.body.body,
   })
 
   entry.save((err) => {
     if (err) return next(err)
-    if (req.remoteUser) {
+    if (req.auth) {
       res.send({message: 'Entry added.'})
     }
   })
