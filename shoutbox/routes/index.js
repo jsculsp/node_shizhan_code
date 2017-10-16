@@ -60,7 +60,7 @@ const entrySubmit = (req, res, next) => {
   })
 }
 
-router.get('/:page?', page(Entry.count, 5), list)
+router.get('/:page(\\d+)?', page(Entry.count, 5), list)
 router.get('/login', form)
 router.post('/login', submit)
 router.get('/logout', logout)
