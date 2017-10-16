@@ -40,9 +40,28 @@ const logout = (req, res, next) => {
   })
 }
 
+const entryForm = (req, res, next) => {
+  res.render('post', {title: 'Post'})
+}
+
+const entrySubmit = (req, res, next) => {
+  let entry = new Entry({
+    username: res.locals.user.name,
+    title: req.body.title,
+    body: req.body.body,
+  })
+
+  entry.save((err) => {
+    if (err) return next(err)
+    res.redirect('/')
+  })
+}
+
 router.get('/', list)
 router.get('/login', form)
 router.post('/login', submit)
 router.get('/logout', logout)
+router.get('/post', entryForm)
+router.post('/post', entrySubmit)
 
 module.exports = router
