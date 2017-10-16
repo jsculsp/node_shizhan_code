@@ -1,6 +1,7 @@
 const express = require('express')
 const User = require('../lib/user')
 const Entry = require('../lib/entry')
+const page = require('../lib/middleware/page')
 const router = express.Router()
 
 const user = (req, res, next) => {
@@ -45,6 +46,6 @@ const entrySubmit = (req, res, next) => {
 
 router.get('/user/:id(\\d+)', user)
 router.post('/entry', entrySubmit)
-router.get('/entries/:page?(\\d+)', entries)
+router.get('/entries/:page?', page(Entry.count, 5), entries)
 
 module.exports = router
