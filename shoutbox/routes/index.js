@@ -1,6 +1,7 @@
 const express = require('express')
 const User = require('../lib/user')
 const Entry = require('../lib/entry')
+const validate = require('../lib/middleware/validate')
 const router = express.Router()
 
 const list = (req, res, next) => {
@@ -62,6 +63,6 @@ router.get('/login', form)
 router.post('/login', submit)
 router.get('/logout', logout)
 router.get('/post', entryForm)
-router.post('/post', entrySubmit)
+router.post('/post', validate.required('title'), validate.lengthAbove('title', 4), entrySubmit)
 
 module.exports = router
