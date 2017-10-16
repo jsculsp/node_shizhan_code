@@ -25,7 +25,11 @@ class Entry {
       })
       fn(null, entries)
     })
-}
+  }
+
+  static count(fn) {
+    db.llen('entries', fn)
+  }
 }
 
 module.exports = Entry

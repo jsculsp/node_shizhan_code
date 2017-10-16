@@ -2,10 +2,12 @@ const express = require('express')
 const User = require('../lib/user')
 const Entry = require('../lib/entry')
 const validate = require('../lib/middleware/validate')
+const page = require('../lib/middleware/page')
 const router = express.Router()
 
 const list = (req, res, next) => {
-  Entry.getRange(0, -1, (err, entries) => {
+  let page = req.page
+  Entry.getRange(page.from, page.to, (err, entries) => {
     if (err) return next(err)
 
     res.render('entries', {
@@ -58,7 +60,7 @@ const entrySubmit = (req, res, next) => {
   })
 }
 
-router.get('/', list)
+router.get('/', page(Entry.count, 5), list)
 router.get('/login', form)
 router.post('/login', submit)
 router.get('/logout', logout)
