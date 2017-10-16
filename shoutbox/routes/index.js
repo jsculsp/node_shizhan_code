@@ -1,9 +1,17 @@
 const express = require('express')
 const User = require('../lib/user')
+const Entry = require('../lib/entry')
 const router = express.Router()
 
-const index = (req, res, next) => {
-  res.render('index', {title: 'Express'})
+const list = (req, res, next) => {
+  Entry.getRange(0, -1, (err, entries) => {
+    if (err) return next(err)
+
+    res.render('entries', {
+      title: 'Entries',
+      entries: entries,
+    })
+  })
 }
 
 const form = (req, res, next) => {
@@ -32,7 +40,7 @@ const logout = (req, res, next) => {
   })
 }
 
-router.get('/', index)
+router.get('/', list)
 router.get('/login', form)
 router.post('/login', submit)
 router.get('/logout', logout)
