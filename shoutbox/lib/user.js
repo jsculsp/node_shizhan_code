@@ -46,6 +46,13 @@ class User {
     })
   }
 
+  toJSON() {
+    return {
+      id: this.id,
+      name: this.name,
+    }
+  }
+
   static getByName(name, fn) {
     this.getId(name, (err, id) => {
       if (err) return fn(err)
@@ -65,7 +72,7 @@ class User {
   }
 
   static authenticate(name, pass, fn) {
-    this.getByName(name, (err, user) => {
+    User.getByName(name, (err, user) => {
       if (err) return fn(err)
       if (!user.id) return fn
       bcrypt.hash(pass, user.salt, (err, hash) => {

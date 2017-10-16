@@ -8,6 +8,7 @@ const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
 const messages = require('../lib/messages')
 const user = require('../lib/middleware/user')
+const apiAuth = require('../lib/middleware/apiAuth')
 
 module.exports = function (app) {
   app.set('views', path.join(__dirname, '..', 'views'))
@@ -27,6 +28,7 @@ module.exports = function (app) {
   }))
 
   app.use(express.static(path.join(__dirname, '..', 'public')))
+  app.use('/api', apiAuth)
   app.use(user)
   app.use(messages())
   app.use(favicon(path.join(__dirname, '..', 'public', 'favicon.ico')))

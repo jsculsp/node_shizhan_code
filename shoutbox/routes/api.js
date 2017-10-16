@@ -1,0 +1,47 @@
+const express = require('express')
+const User = require('../lib/user')
+const Entry = require('../lib/entry')
+const router = express.Router()
+
+const user = (req, res, next) => {
+  User.get(req.params.id, (err, user) => {
+    if (err) return next(err)
+    if (!user.id) return res.send(404)
+    res.send(user)
+  })
+}
+
+const entries = (req, res, next) => {
+  let page = req.page
+  Entry.getRange(page.from, page.to, (err, entries) => {
+    if (err) return next(err)
+
+    res.format({
+      json: () => {
+        res.send(entries)
+      },
+      xml: () => {
+        res.render('entries/xml', {entries: entries})
+      }
+    })
+  })
+}
+
+const entrySubmit = (req, res, next) => {
+  let entry = new Entry({
+    username: res.locals.user.name,
+    title: req.body.title,
+    body: req.body.body,
+  })
+
+  entry.save((err) => {
+    if (err) return next(err)
+    res.redirect('/')
+  })
+}
+
+router.get('/user/:id(\\d+)', user)
+router.post('/entry', entrySubmit)
+router.get('/entries/:page?(\\d+)', entries)
+
+module.exports = router

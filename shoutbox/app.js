@@ -7,6 +7,7 @@ require('./settings/common')(app)
 
 app.use('/', require('./routes/index'))
 app.use('/register', require('./routes/register'))
+app.use('/api', require('./routes/api'))
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
