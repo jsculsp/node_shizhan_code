@@ -29,7 +29,6 @@ const entries = (req, res, next) => {
 }
 
 const entrySubmit = (req, res, next) => {
-  console.log('req.body: ', req.body)
   let entry = new Entry({
     username: res.locals.user,
     title: req.body.title,

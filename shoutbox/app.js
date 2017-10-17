@@ -11,9 +11,24 @@ app.use('/api', require('./routes/api'))
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  let err = new Error('Not Found')
-  err.status = 404
-  next(err)
+  res.status(404).format({
+    html: () => {
+      res.render('404')
+    },
+    json: () => {
+      res.send({message: 'Resource not found'})
+    },
+    xml: () => {
+      res.send(`
+        <error>
+          <message>Resource not found</message>
+        </error>
+      `)
+    },
+    text: () => {
+      res.send('Resource not found\n')
+    }
+  })
 })
 
 // error handler
