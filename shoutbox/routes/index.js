@@ -66,5 +66,12 @@ router.post('/login', submit)
 router.get('/logout', logout)
 router.get('/post', entryForm)
 router.post('/post', validate.required('title'), validate.lengthAbove('title', 4), entrySubmit)
+if (process.env.NODE_ENV === 'test') {
+  router.get('/dev/error', function(req, res, next){
+    var err = new Error('database connection failed')
+    err.type = 'database'
+    next(err)
+  })
+}
 
 module.exports = router

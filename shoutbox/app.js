@@ -34,10 +34,35 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
-  res.locals.message = err.message
-  res.locals.error = req.app.get('env') === 'development' ? err : {}
+  if (req.app.get('env') === 'development') {
+    res.locals.message = err.message
+    res.locals.error = err
+    res.status(err.status || 500)
+    res.render('error')
+  } else {
+    console.error(err.stack)
+    let msg
+    switch (err.type) {
+      case 'database':
+        msg = 'Server Unavailable'
+        res.statusCode = 503
+        break
 
-  // render the error page
-  res.status(err.status || 500)
-  res.render('error')
+    default:
+      msg = 'Internal Server Error'
+      res.statusCode = 500
+    }
+
+    res.format({
+      html: () => {
+        res.render('5xx', {msg: msg, status: res.statusCode})
+      },
+      json: () => {
+        res.send({error: msg})
+      },
+      text: () => {
+        res.send(`${msg}\n`)
+      }
+    })
+  }
 })
