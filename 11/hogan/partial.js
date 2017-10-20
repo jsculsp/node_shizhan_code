@@ -1,13 +1,13 @@
-var hogan = require('hogan.js');
+let hogan = require('hogan.js')
 
-var studentTemplate = '<p>Name: {{name}}, '
-                    + 'Age: {{age}} years old</p>';
+let studentTemplate = '<p>Name: {{name}}, '
+                    + 'Age: {{age}} years old</p>'
 
-var mainTemplate = '{{#students}}'
+let mainTemplate = '{{#students}}'
                  + '{{>student}}'
-                 + '{{/students}}';
+                 + '{{/students}}'
 
-var context = {
+let context = {
   students: [{
     name: 'Jane Narwal',
     age: 21
@@ -15,10 +15,10 @@ var context = {
     name :'rick larue',
     age: 26
   }]
-};
+}
 
-var template = hogan.compile(mainTemplate);
-var partial = hogan.compile(studentTemplate);
+let template = hogan.compile(mainTemplate)
+let partial = hogan.compile(studentTemplate)
 
-var html = template.render(context, {student: partial});
-console.log(html);
+let html = template.render(context, {student: partial})
+console.log(html)

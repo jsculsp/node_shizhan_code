@@ -2,6 +2,9 @@
   "name": "11",
   "version": "0.0.1",
   "dependencies": {
-    "ejs": "^2.5.7"
+    "ejs": "^2.5.7",
+    "github-flavored-markdown": "^1.0.1",
+    "hogan.js": "^3.0.2",
+    "jade": "^1.11.0"
   }
 }
