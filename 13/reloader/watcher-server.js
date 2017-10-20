@@ -1,42 +1,42 @@
-var fs = require('fs');
-var url = require('url');
-var http = require('http');
-var path = require('path');
-var express = require('express');
-var app = express();
-var server = http.createServer(app);
-var io = require('socket.io').listen(server);
-var root = __dirname;
+var fs = require('fs')
+var url = require('url')
+var http = require('http')
+var path = require('path')
+var express = require('express')
+var app = express()
+var server = http.createServer(app)
+var io = require('socket.io').listen(server)
+var root = __dirname
 
 app.use(function (req, res, next) {
-  var file = url.parse(req.url).pathname;
-  var mode = 'stylesheet';
+  var file = url.parse(req.url).pathname
+  var mode = 'stylesheet'
   if (file[file.length - 1] == '/') {
-    file += 'index.html';
-    mode = 'reload';
+    file += 'index.html'
+    mode = 'reload'
   }
-  createWatcher(file, mode);
-  next();
-});
+  createWatcher(file, mode)
+  next()
+})
 
-app.use(express.static(root));
+app.use(express.static(root))
 
-var watchers = {};
+var watchers = {}
 
-function createWatcher (file, event) {
-  var absolute = path.join(root, file);
+function createWatcher(file, event) {
+  var absolute = path.join(root, file)
 
   if (watchers[absolute]) {
-    return;
+    return
   }
 
   fs.watchFile(absolute, function (curr, prev) {
     if (curr.mtime !== prev.mtime) {
-      io.sockets.emit(event, file);
+      io.sockets.emit(event, file)
     }
-  });
+  })
 
-  watchers[absolute] = true;
+  watchers[absolute] = true
 }
 
-server.listen(8080);
+server.listen(8080)
