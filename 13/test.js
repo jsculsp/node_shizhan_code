@@ -1,14 +1,7 @@
-const net = require('net')
+const http = require('http')
+const url = require('url')
 
-const socket = net.connect({host: 'localhost', port: 3000})
-socket.setEncoding('utf-8')
-
-socket.on('data', (chunk) => {
-  console.log(chunk)
+let target = url.parse(process.argv[2])
+http.get(target, (res) => {
+  res.pipe(process.stdout)
 })
-
-let count = 0
-
-setInterval(() => {
-  socket.write(`hello for the ${++count} time`)
-}, 1000)
