@@ -42,7 +42,7 @@ const genFunc = function () {
   ]
 }
 
-promise1.then(...genFunc())
+promise1.then(...genFunc()).then((result) => {log(`result again: ${result}`)})
 promise2.then(...genFunc())
 
 deffered.all([promise1, promise2]).then(() => {
