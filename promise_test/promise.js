@@ -7,9 +7,9 @@ class Promise extends EventEmitter {
     super()
   }
 
-  then(fullfilledHandler, errorHandler, progressHandler) {
-    if (typeof fullfilledHandler === 'function') {
-      this.once('success', fullfilledHandler)
+  then(fulfilledHandler, errorHandler, progressHandler) {
+    if (typeof fulfilledHandler === 'function') {
+      this.once('success', fulfilledHandler)
     }
     if (typeof errorHandler === 'function') {
       this.on('error', errorHandler)
