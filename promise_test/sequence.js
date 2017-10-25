@@ -1,19 +1,26 @@
 const {Deffered} = require('./chaining_promise')
 const fs = require('fs')
+const log = console.log.bind(console)
 
-const readFile = function (file, encoding) {
-  let deffered = new Deffered()
-  fs.readFile(file, encoding, deffered.callback())
-  return deffered.promise
+const smooth = function (method) {
+  return function () {
+    let deffered = new Deffered()
+    let args = Array.from(arguments)
+    args.push(deffered.callback())
+    method.apply(null, args)
+    return deffered.promise
+  }
 }
 
+const readFile = smooth(fs.readFile)
+
 readFile('./origin1', 'utf-8').then((data) => {
-  console.log(`file1: ${data}`)
+  log(`file1: ${data}`)
   return readFile('./origin2', 'utf-8')
 }).then((data) => {
-  console.log(`file2: ${data}`)
+  log(`file2: ${data}`)
 }).then((data) => {
-  console.log(`always file2: ${data}`)
+  log(`always file2: ${data}`)
 }).then((data) => {
-  console.log(`always file2: ${data}`)
+  log(`always file2: ${data}`)
 })
