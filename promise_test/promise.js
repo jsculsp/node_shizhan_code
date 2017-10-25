@@ -12,7 +12,7 @@ class Promise extends EventEmitter {
       this.once('success', fullfilledHandler)
     }
     if (typeof errorHandler === 'function') {
-      this.once('error', errorHandler)
+      this.on('error', errorHandler)
     }
     if (typeof progressHandler === 'function') {
       this.on('progress', progressHandler)
@@ -40,6 +40,25 @@ class Deffered {
   progress(data) {
     this.promise.emit('progress', data)
   }
+
+  all(promises) {
+    let count = promises.length
+    let results = []
+    promises.forEach((promise, i) => {
+      promise.then((data) => {
+        count--
+        results[i] = data
+        if (count === 0) {
+          this.resolve(results)
+        }
+      }, (err) => {
+        this.reject(err)
+      })
+    })
+    return this.promise
+  }
 }
 
 exports.Deffered = Deffered
+exports.Promise = Promise
+

@@ -1,6 +1,7 @@
 const fs = require('fs')
-const {Deffered} = require('./promise')
-const readStream = fs.createReadStream('./destination')
+const {Promise, Deffered} = require('./promise')
+const readStream1 = fs.createReadStream('./origin1')
+const readStream2 = fs.createReadStream('./origin2')
 const log = console.log.bind(console)
 
 const promisify = function (readStream) {
@@ -25,10 +26,27 @@ const promisify = function (readStream) {
   return deferred.promise
 }
 
-promisify(readStream).then((result) => {
-  log(`result: ${result}`)
+let promise1 = promisify(readStream1)
+let promise2 = promisify(readStream2)
+let deffered = new Deffered()
+
+const genFunc = function () {
+  return [
+    (result) => {
+      log(`result: ${result}`)
+    }, (err) => {
+      log(`error: ${err}`)
+    }, (data) => {
+      log(`data: ${data}`)
+    },
+  ]
+}
+
+promise1.then(...genFunc())
+promise2.then(...genFunc())
+
+deffered.all([promise1, promise2]).then(() => {
+  log('promise1 和 promise2 均已执行完毕！！！')
 }, (err) => {
-  log(`error: ${err}`)
-}, (data) => {
-  log(`data: ${data}`)
+  log(err)
 })
