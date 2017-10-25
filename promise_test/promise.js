@@ -32,7 +32,7 @@ class Deffered {
     this.promise.emit('success', obj)
   }
 
-  reject(obj) {
+  reject(err) {
     this.state = 'failed'
     this.promise.emit('error', err)
   }
