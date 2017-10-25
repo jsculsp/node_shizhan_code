@@ -1,6 +1,4 @@
 const events = require('events')
-const EventEmitter = events.EventEmitter
-const log = console.log.bind(console)
 
 class Deffered {
   constructor() {
@@ -12,8 +10,37 @@ class Deffered {
     let handler
     while (handler = promise.queue.shift()) {
       if (handler && handler.fulfilled) {
-        
+        let ret = handler.fulfilled(obj)
+        if (ret && ret.isPromise) {
+          ret.queue = promise.queue
+          this.promise = ret
+          return
+        }
       }
+    }
+  }
+
+  reject(err) {
+    let promise = this.promise
+    let handler
+    while (handler = promise.queue.shift()) {
+      if (handler && handler.error) {
+        let ret = handler.error(err)
+        if (ret && ret.isPromise) {
+          ret.queue = promise.queue
+          this.promise = ret
+          return
+        }
+      }
+    }
+  }
+
+  callback() {
+    return (err, data) => {
+      if (err) {
+        return this.reject(err)
+      }
+      this.resolve(data)
     }
   }
 }
@@ -39,3 +66,5 @@ class Promise {
     return this
   }
 }
+
+module.exports = {Deffered, Promise}
