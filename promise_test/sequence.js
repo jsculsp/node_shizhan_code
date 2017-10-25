@@ -1,4 +1,4 @@
-const {Promise, Deffered} = require('./chaining_promise')
+const {Deffered} = require('./chaining_promise')
 const fs = require('fs')
 
 const readFile = function (file, encoding) {

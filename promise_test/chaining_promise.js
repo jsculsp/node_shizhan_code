@@ -1,5 +1,3 @@
-const events = require('events')
-
 class Deffered {
   constructor() {
     this.promise = new Promise()
