@@ -7,7 +7,7 @@ const smooth = function (method) {
     let deffered = new Deffered()
     let args = Array.from(arguments)
     args.push(deffered.callback())
-    setTimeout(method, 0, ...args)
+    setImmediate(method, ...args)
     // method.apply(null, args)
     return deffered.promise
   }
