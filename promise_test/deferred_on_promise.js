@@ -2,10 +2,10 @@
 
 class Deferred {
   constructor() {
-    this.promise = new Promise(function (resolve, reject) {
+    this.promise = new Promise((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
-    }.bind(this))
+    })
   }
 
   resolve(value) {
