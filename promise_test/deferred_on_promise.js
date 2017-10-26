@@ -8,14 +8,13 @@ class Deferred {
     }.bind(this))
   }
 
-  resolve = function (value) {
+  resolve(value) {
     this._resolve.call(this.promise, value)
   }
 
-  reject = function (reason) {
+  reject(reason) {
     this._reject.call(this.promise, reason)
   }
 }
-
 
 exports.Deferred = Deferred
