@@ -13,7 +13,6 @@ function timeoutPromise(promise, ms) {
 
 // 运行示例
 var taskPromise = new Promise(function (resolve) {
-  // 随便一些什么处理
   var delay = Math.random() * 2000
   setTimeout(function () {
     resolve(delay + "ms")
