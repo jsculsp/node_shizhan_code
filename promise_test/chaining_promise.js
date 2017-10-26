@@ -1,4 +1,4 @@
-class Deffered {
+class Deferred {
   constructor() {
     this.promise = new Promise()
   }
@@ -67,4 +67,4 @@ class Promise {
   }
 }
 
-module.exports = {Deffered, Promise}
+module.exports = {Deferred, Promise}

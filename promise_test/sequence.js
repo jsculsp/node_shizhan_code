@@ -1,15 +1,15 @@
-const {Deffered} = require('./chaining_promise')
+const {Deferred} = require('./chaining_promise')
 const fs = require('fs')
 const log = console.log.bind(console)
 
 const smooth = function (method) {
   return function () {
-    let deffered = new Deffered()
+    let deferred = new Deferred()
     let args = Array.from(arguments)
-    args.push(deffered.callback())
+    args.push(deferred.callback())
     setImmediate(method, ...args)
     // method.apply(null, args)
-    return deffered.promise
+    return deferred.promise
   }
 }
 
