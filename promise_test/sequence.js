@@ -22,8 +22,9 @@ readFile('./origin1', 'utf-8').then((data) => {
   log(`file2: ${data}`)
 }).then((data) => {
   log(`always file2: ${data}`)
+  return '这是第三条数据\r\n'
 }).then((data) => {
-  log(`always file2: ${data}`)
+  log(`not file2 anymore: ${data}`)
 })
 
 //

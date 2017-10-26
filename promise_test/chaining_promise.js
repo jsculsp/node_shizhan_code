@@ -13,6 +13,8 @@ class Deffered {
           ret.queue = promise.queue
           this.promise = ret
           return
+        } else if (ret !== undefined) {
+          obj = ret
         }
       }
     }
