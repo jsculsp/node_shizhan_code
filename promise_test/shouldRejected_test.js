@@ -13,7 +13,7 @@ function shouldRejected(promise) {
 }
 
 it('should be rejected', function () {
-  var promise = Promise.reject(new Error('human error'))
+  let promise = Promise.reject(new Error('human error'))
   return shouldRejected(promise).catch(function (error) {
     assert(error.message === 'human error')
   })
