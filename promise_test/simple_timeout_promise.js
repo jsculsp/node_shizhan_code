@@ -19,6 +19,7 @@ var taskPromise = new Promise(function (resolve) {
     resolve(delay + "ms")
   }, delay)
 })
+
 timeoutPromise(taskPromise, 1000).then(function (value) {
   console.log("taskPromise在规定时间内结束 : " + value)
 }).catch(function (error) {
