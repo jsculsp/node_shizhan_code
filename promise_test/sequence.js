@@ -13,26 +13,26 @@ const smooth = function (method) {
   }
 }
 
-// const readFile = smooth(fs.readFile)
-//
-// readFile('./origin1', 'utf-8').then((data) => {
-//   log(`file1: ${data}`)
-//   return readFile('./origin2', 'utf-8')
-// }).then((data) => {
-//   log(`file2: ${data}`)
-// }).then((data) => {
-//   log(`always file2: ${data}`)
-// }).then((data) => {
-//   log(`always file2: ${data}`)
-// })
+const readFile = smooth(fs.readFile)
 
-
-let temp = function (v, cb) {
-  cb(null, v)
-}
-
-let func = smooth(temp)
-
-func(3).then((data) => {
-  log('data: ' + data)
+readFile('./origin1', 'utf-8').then((data) => {
+  log(`file1: ${data}`)
+  return readFile('./origin2', 'utf-8')
+}).then((data) => {
+  log(`file2: ${data}`)
+}).then((data) => {
+  log(`always file2: ${data}`)
+}).then((data) => {
+  log(`always file2: ${data}`)
 })
+
+//
+// let temp = function (v, cb) {
+//   cb(null, v)
+// }
+//
+// let func = smooth(temp)
+//
+// func(3).then((data) => {
+//   log('data: ' + data)
+// })
