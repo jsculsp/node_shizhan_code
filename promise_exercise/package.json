@@ -2,6 +2,8 @@
   "name": "promise_exercise",
   "version": "0.0.1",
   "dependencies": {
-    "mocha": "^4.0.1"
+    "co": "^4.6.0",
+    "mocha": "^4.0.1",
+    "node-fetch": "^1.7.3"
   }
 }
