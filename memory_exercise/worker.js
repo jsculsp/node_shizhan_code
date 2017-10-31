@@ -23,4 +23,8 @@ process.on('uncaughtException', function () {
     // 所有已有连接断开后，退出进程
     process.exit(1)
   })
+  // 设置超时时间，5秒后退出进程
+  setTimeout(function () {
+    process.exit(1)
+  }, 5000)
 })
