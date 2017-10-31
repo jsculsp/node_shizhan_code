@@ -1,0 +1,7 @@
+{
+  "name": "memory_exercise",
+  "version": "0.0.1",
+  "dependencies": {
+    "heapdump": "^0.3.9"
+  }
+}
