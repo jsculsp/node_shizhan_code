@@ -17,6 +17,9 @@ process.on('message', function (m, tcp) {
 })
 
 process.on('uncaughtException', function () {
+  // 记录日志（需要实现 logger）
+  // logger.error(err)
+  // 发送自杀信号
   process.send({act: 'suicide'})
   // 停止接收新的连接
   worker.close(function () {
