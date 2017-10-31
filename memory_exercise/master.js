@@ -20,7 +20,7 @@ const isTooFrequently = function () {
 const createWorker = function () {
   // 检查是否太过频繁
   if (isTooFrequently()) {
-    process.emit('giveup', length, during)
+    process.emit('giveup', restart.length, during)
     return
   }
   let worker = fork(`${__dirname}/worker.js`)
