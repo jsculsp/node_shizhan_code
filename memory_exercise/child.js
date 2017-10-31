@@ -1,6 +1,14 @@
-process.on('message', function (m) {
+const http = require('http')
 
-console.log('CHILD got message:', m)
+const server = http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-type': 'text/plain'})
+  res.end(`handled by child, pid is ${process.pid}\n`)
 })
 
-process.send({foo: 'bar'})
+process.on('message', function (m, tcp) {
+  if (m === 'server') {
+    tcp.on('connection', function (socket) {
+      server.emit('connection', socket)
+    })
+  }
+})

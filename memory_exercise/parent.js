@@ -1,8 +1,11 @@
 const cp = require('child_process')
-const n = cp.fork(__dirname + '/child.js')
+const server = require('net').createServer()
 
-n.on('message', function (m) {
-  console.log('PARENT got message:', m)
+let child1 = cp.fork('child.js')
+let child2 = cp.fork('child.js')
+
+server.listen(3000, function () {
+  child1.send('server', server)
+  child2.send('server', server)
+  server.close()
 })
-
-n.send({hello: 'world'})
