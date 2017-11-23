@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  h3= title
+  form#form-add-student(name='adddstudent', method='post',
+  action='/addstudent', accept-charset='utf-8')
+    span Name
+    span &nbsp;
+    input#input-name(type='text', placeholder='student',
+    name='student')
+    br
+    br
+    span Street
+    span &nbsp;
+    input#input-street(type='text', placeholder='street',
+    name='street')
+    br
+    br
+    span City
+    span &nbsp;
+    input#input-city(type="text", placeholder="city", name="city")
+    br
+    br
+    span State
+    span &nbsp;
+    input#input-state(type="text", placeholder="state", name="state")
+    br
+    br
+    span Sex
+    span &nbsp;
+    input#input-sex(type="text", placeholder="sex", name="sex")
+    br
+    br
+    span GPA
+    span &nbsp;
+    input#input-gpa(type="text", placeholder="gpa", name="gpa")
+    br
+    br
+    button#submit-student(type="submit") submit

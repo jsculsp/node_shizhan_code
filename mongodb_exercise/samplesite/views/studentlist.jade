@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  a(href='/newstudent') new stuent
+  h3.
+    Students
+  ul
+    each student in studentlist
+      li#student-list-item
+        a(href='#') #{student.student} lives at
+        span #{student.street} #{student.city}, #{student.state}
