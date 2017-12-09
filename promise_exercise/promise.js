@@ -61,4 +61,3 @@ class Deffered {
 
 exports.Deffered = Deffered
 exports.Promise = Promise
-

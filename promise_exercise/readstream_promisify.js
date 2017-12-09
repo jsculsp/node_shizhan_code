@@ -45,8 +45,8 @@ const genFunc = function () {
 promise1.then(...genFunc()).then((result) => {log(`result again: ${result}`)})
 promise2.then(...genFunc())
 
-deffered.all([promise1, promise2]).then(() => {
-  log('promise1 和 promise2 均已执行完毕！！！')
+deffered.all([promise1, promise2]).then((result) => {
+  log(`promise1 和 promise2 均已执行完毕！！！\n${result}`)
 }, (err) => {
   log(err)
 })

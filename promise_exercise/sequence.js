@@ -1,4 +1,4 @@
-const {Deferred} = require('./chaining_promise')
+const { Deferred } = require('./chaining_promise')
 const fs = require('fs')
 const log = console.log.bind(console)
 
