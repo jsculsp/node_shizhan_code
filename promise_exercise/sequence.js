@@ -16,7 +16,7 @@ const smooth = function (method) {
 const readFile = smooth(fs.readFile)
 
 
-// 用这种实现的 Promise 调用 then 方法返回的是同一个 promise 实例，
+// 用这种实现的 Promise 调用 then 方法返回的是同一个 promise 实例(除非 then 方法返回的是异步 promise 对象)，
 // 最新的 es6 Promise 每次调用 then 都会返回一个新的 promise 实例
 readFile('./origin1', 'utf-8').then((data) => {
   log(`file1: ${data}`)
