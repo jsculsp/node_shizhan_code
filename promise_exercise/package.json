@@ -4,6 +4,10 @@
   "dependencies": {
     "co": "^4.6.0",
     "mocha": "^4.0.1",
-    "node-fetch": "^1.7.3"
+    "node-fetch": "^1.7.3",
+    "thunkify": "^2.1.2"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1"
   }
 }
