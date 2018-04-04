@@ -1,38 +1,30 @@
-let PENDING = 0
-let FULFILLED = 1
-let REJECTED = 2
+const PENDING = Symbol('PENDING')
+const FULFILLED = Symbol('FULFILLED')
+const REJECTED = Symbol('REJECTED')
 
 class Promise {
-
   constructor(fn) {
-    // store _state which can be PENDING, FULFILLED or REJECTED
     this._state = PENDING
-    // store value once FULFILLED or REJECTED
-    this.value = null
-    // store sucess & failure _handlers
+    this._value = null
     this._handlers = []
-    this._doResolve(fn, this.resolve, this._reject)
+    this._doResolve(fn, this._resolve, this._reject)
   }
 
-  _fulfill(result) {
+  _fulfill(request) {
     this._state = FULFILLED
-    this.value = result
-    this._handlers.forEach(handle)
+    this._value = request
+    this._handler.forEach(this._handle)
     this._handlers = null
   }
 
-  _reject(error) {
+  _reject(err) {
     this._state = REJECTED
-    this.value = error
-    this._handlers.forEach(handle)
+    this._value = err
+    this._handlers.forEach(this._handle)
     this._handlers = null
   }
 
-  /**
-   * Check if a value is a Promise and, if it is,
-   * return the `then` method of that promise.
-   */
-  static _getThen(value) {
+  _getThen(value) {
     let t = typeof value
     if (value && (t === 'object' || t === 'function')) {
       let then = value.then
@@ -43,29 +35,27 @@ class Promise {
     return null
   }
 
-  resolve(result) {
+  _resolve(result) {
     try {
-      let then = this._getThen(result)
-      if (then) {
-        this._doResolve(then.bind(result), this._resolve, this._reject)
-        return
-      }
+      // let then = this._getThen(result)
+      // if (then) {
+      //   this._doResolve(then.bind(result), this._resolve, this._reject)
+      //   return
+      // }
       this._fulfill(result)
-    } catch (e) {
-      this._reject(e)
+    } catch (err) {
+      this._reject(err)
     }
   }
 
-  handle(handler) {
-    if (state === PENDING) {
+  _handle(handler) {
+    if (this._state === PENDING) {
       this._handlers.push(handler)
     } else {
-      if (state === FULFILLED &&
-        typeof handler.onFulfilled === 'function') {
+      if (this._state === FULFILLED && typeof handler.onFulfilled === 'function') {
         handler.onFulfilled(this._value)
       }
-      if (state === REJECTED &&
-        typeof handler.onRejected === 'function') {
+      if (this._state === REJECTED && typeof handler.onRejected === 'function') {
         handler.onRejected(this._value)
       }
     }
@@ -74,56 +64,36 @@ class Promise {
   _doResolve(fn, onFulfilled, onRejected) {
     let done = false
     try {
-      fn(function (value) {
+      fn((value) => {
         if (done) return
         done = true
         onFulfilled(value)
-      }, function (reason) {
+      }, (err) => {
         if (done) return
         done = true
-        onRejected(reason)
+        onRejected(err)
       })
-    } catch (ex) {
+    } catch (err) {
       if (done) return
       done = true
-      onRejected(ex)
+      onRejected(err)
     }
   }
 
   done(onFulfilled, onRejected) {
-    // ensure we are always asynchronous
-    setTimeout(function () {
-      handle({
+    process.nextTick(() => {
+      this._handle({
         onFulfilled: onFulfilled,
-        onRejected: onRejected
-      })
-    })
-  }
-
-  then(onFulfilled, onRejected) {
-    let self = this
-    return new Promise(function (resolve, reject) {
-      return self.done(function (result) {
-        if (typeof onFulfilled === 'function') {
-          try {
-            return resolve(onFulfilled(result))
-          } catch (ex) {
-            return reject(ex)
-          }
-        } else {
-          return resolve(result)
-        }
-      }, function (error) {
-        if (typeof onRejected === 'function') {
-          try {
-            return resolve(onRejected(error))
-          } catch (ex) {
-            return reject(ex)
-          }
-        } else {
-          return reject(error)
-        }
+        onRejected: onRejected,
       })
     })
   }
 }
+
+let p = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('hello')
+  }, 100)
+})
+
+p.done(data => console.log(data), err => console.log(err))
