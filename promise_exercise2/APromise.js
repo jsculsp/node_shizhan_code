@@ -7,20 +7,20 @@ class Promise {
     this._state = PENDING
     this._value = null
     this._handlers = []
-    this._doResolve(fn, this._resolve, this._reject)
+    this._doResolve(fn, this._resolve.bind(this), this._reject.bind(this))
   }
 
   _fulfill(request) {
     this._state = FULFILLED
     this._value = request
-    this._handler.forEach(this._handle)
+    this._handlers.forEach(this._handle.bind(this))
     this._handlers = null
   }
 
   _reject(err) {
     this._state = REJECTED
     this._value = err
-    this._handlers.forEach(this._handle)
+    this._handlers.forEach(this._handle.bind(this))
     this._handlers = null
   }
 
