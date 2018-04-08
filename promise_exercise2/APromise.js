@@ -2,7 +2,7 @@ const PENDING = Symbol('PENDING')
 const FULFILLED = Symbol('FULFILLED')
 const REJECTED = Symbol('REJECTED')
 
-class APromise {
+class Promise {
   constructor(fn) {
     this._state = PENDING
     this._value = null
@@ -37,11 +37,11 @@ class APromise {
 
   _resolve(result) {
     try {
-        let then = this._getThen(result)
-        if (then) {
-          this._doResolve(then.bind(result), this._resolve, this._reject)
-          return
-        }
+      let then = this._getThen(result)
+      if (then) {
+        this._doResolve(then.bind(result), this._resolve, this._reject)
+        return
+      }
       this._fulfill(result)
     } catch (err) {
       this._reject(err)
@@ -88,12 +88,52 @@ class APromise {
       })
     })
   }
+
+  then(onFulfilled, onRejected) {
+    return new Promise((resolve, reject) => {
+      this.done(result => {
+        if (typeof onFulfilled === 'function') {
+          try {
+            resolve(onFulfilled(result))
+          } catch (ex) {
+            reject(ex)
+          }
+        } else {
+          resolve(result)
+        }
+      }, error => {
+        if (typeof onRejected === 'function') {
+          try {
+            resolve(onRejected(error))
+          } catch (ex) {
+            reject(ex)
+          }
+        } else {
+          reject(error)
+        }
+      })
+    })
+  }
 }
 
-let p = new APromise((resolve, reject) => {
+let p = new Promise((resolve, reject) => {
   setTimeout(() => {
-    resolve(Promise.resolve(123))
-  }, 1000)
+    resolve(new Promise((resolve, reject) => {
+      setTimeout(() => resolve('inner...'), 100)
+    }))
+  }, 200)
 })
 
-p.done(data => console.log(data), err => console.log(err))
+p.then(() => console.log('first then of p...'))
+
+p.then(data => {
+  console.log(data)
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('then 1...')
+    }, 200)
+  })
+})
+  .then(data => console.log(data))
+
+p.then(() => console.log('third then of p...'))
