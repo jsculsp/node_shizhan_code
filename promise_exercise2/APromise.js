@@ -2,12 +2,12 @@ const PENDING = Symbol('PENDING')
 const FULFILLED = Symbol('FULFILLED')
 const REJECTED = Symbol('REJECTED')
 
-class Promise {
+class APromise {
   constructor(fn) {
     this._state = PENDING
     this._value = null
     this._handlers = []
-    this._doResolve(fn, this._resolve.bind(this), this._reject.bind(this))
+    this._doResolve(fn, this._resolve, this._reject)
   }
 
   _fulfill(request) {
@@ -37,11 +37,11 @@ class Promise {
 
   _resolve(result) {
     try {
-      // let then = this._getThen(result)
-      // if (then) {
-      //   this._doResolve(then.bind(result), this._resolve, this._reject)
-      //   return
-      // }
+        let then = this._getThen(result)
+        if (then) {
+          this._doResolve(then.bind(result), this._resolve, this._reject)
+          return
+        }
       this._fulfill(result)
     } catch (err) {
       this._reject(err)
@@ -67,16 +67,16 @@ class Promise {
       fn((value) => {
         if (done) return
         done = true
-        onFulfilled(value)
+        onFulfilled.call(this, value)
       }, (err) => {
         if (done) return
         done = true
-        onRejected(err)
+        onRejected.call(this, err)
       })
     } catch (err) {
       if (done) return
       done = true
-      onRejected(err)
+      onRejected.call(this, err)
     }
   }
 
@@ -90,10 +90,10 @@ class Promise {
   }
 }
 
-let p = new Promise((resolve, reject) => {
+let p = new APromise((resolve, reject) => {
   setTimeout(() => {
-    resolve('hello')
-  }, 100)
+    resolve(Promise.resolve(123))
+  }, 1000)
 })
 
 p.done(data => console.log(data), err => console.log(err))
