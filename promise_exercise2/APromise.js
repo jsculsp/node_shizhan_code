@@ -114,26 +114,37 @@ class Promise {
       })
     })
   }
+
+  catch(onRejected) {
+    return this.then(undefined, onRejected)
+  }
 }
 
-let p = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve(new Promise((resolve, reject) => {
-      setTimeout(() => resolve('inner...'), 100)
-    }))
-  }, 200)
+// let p = new Promise((resolve, reject) => {
+//   setTimeout(() => {
+//     resolve(new Promise((resolve, reject) => {
+//       setTimeout(() => resolve('inner...'), 100)
+//     }))
+//   }, 200)
+// })
+//
+// p.then(() => console.log('first then of p...'))
+//
+// p.then(data => {
+//   console.log(data)
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       resolve('then 1...')
+//     }, 200)
+//   })
+// })
+//   .then(data => console.log(data))
+//
+// p.then(() => console.log('third then of p...'))
+
+let p2 = new Promise((resolve, reject) => {
+  reject(new Error('错误！！！'))
 })
 
-p.then(() => console.log('first then of p...'))
-
-p.then(data => {
-  console.log(data)
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve('then 1...')
-    }, 200)
-  })
-})
-  .then(data => console.log(data))
-
-p.then(() => console.log('third then of p...'))
+p2.then(data => console.log('data: ', data), err => {console.log('err in then: ', err.toString()); throw err})
+  .catch(err => console.log('err in catch: ', err.toString()))
