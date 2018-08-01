@@ -129,31 +129,13 @@ class Promise {
   }
 }
 
-// let p = new Promise((resolve, reject) => {
-//   setTimeout(() => {
-//     resolve(new Promise((resolve, reject) => {
-//       setTimeout(() => resolve('inner...'), 100)
-//     }))
-//   }, 200)
-// })
-//
-// p.then(() => console.log('first then of p...'))
-//
-// p.then(data => {
-//   console.log(data)
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       resolve('then 1...')
-//     }, 200)
-//   })
-// })
-//   .then(data => console.log(data))
-//
-// p.then(() => console.log('third then of p...'))
-
-let p2 = new Promise((resolve, reject) => {
-  reject(new Error('错误！！！'))
+// reject 或 resolve 后必须 return，否则之后的逻辑还会执行，可能会产生意想不到的后果
+let p = new Promise((resolve, reject) => {
+  reject(new Error('先主动抛出！'))
+  resolve('这是正常的响应')
+  throw new Error('意外的错误！')
 })
 
-p2.then(data => console.log('data: ', data), err => {console.log('err in then: ', err.toString()); throw err})
-  .catch(err => console.log('err in catch: ', err.toString()))
+p
+  .then(data => console.log('数据: ', data))
+  .catch(err => console.log('接住: ', err.toString()))
