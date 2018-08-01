@@ -7,6 +7,8 @@ class Promise {
     this._state = PENDING
     this._value = null
     this._handlers = []
+    // fn 函数接收两个回调函数作为参数，即 onFulfilled 和 onRejected，这里我们的实现是 this._resolve 和 this._reject
+    // 调 this._doResolve 包一层的原因见 this._doResolve 方法
     this._doResolve(fn, this._resolve, this._reject)
   }
 
