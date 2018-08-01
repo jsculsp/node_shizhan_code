@@ -61,9 +61,18 @@ class Promise {
     }
   }
 
+  /**
+   *
+   * @param fn A resolver function that may not be trusted
+   * @param onFulfilled
+   * @param onRejected
+   * @private
+   */
   _doResolve(fn, onFulfilled, onRejected) {
     let done = false
     try {
+      // 保证 onFulfilled 和 onRejected 只会被调用一次
+      // 可能 fn 直接调用 reject，也可能 fn 函数出错，这时候都需要调用 onRejected 回调函数
       fn((value) => {
         if (done) return
         done = true
